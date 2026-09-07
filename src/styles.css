@@ -1,0 +1,56 @@
+/* Elementos renderizados por drei <Html> viven fuera del árbol de Chakra, por eso van acá. */
+
+.sector-marker {
+  --gold: #e3c24c;
+  --chalk: #f4f6f1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 4px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(8, 33, 26, 0.72);
+  color: var(--chalk);
+  font: 600 12px/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform 160ms ease, background 160ms ease;
+  white-space: nowrap;
+}
+.sector-marker:hover,
+.sector-marker:focus-visible {
+  transform: scale(1.08);
+  background: rgba(8, 33, 26, 0.9);
+  outline: none;
+}
+.sector-marker:focus-visible {
+  box-shadow: 0 0 0 3px rgba(227, 194, 76, 0.6);
+}
+.sector-marker__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--chalk);
+  box-shadow: 0 0 0 0 rgba(227, 194, 76, 0.7);
+  animation: marker-pulse 2.4s ease-out infinite;
+}
+.sector-marker[data-featured='true'] .sector-marker__dot {
+  background: var(--gold);
+}
+.sector-marker[data-selected='true'] {
+  background: var(--gold);
+  color: #1a1d1b;
+}
+.sector-marker[data-selected='true'] .sector-marker__dot {
+  background: #1a1d1b;
+  animation: none;
+}
+@keyframes marker-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(227, 194, 76, 0.7); }
+  70% { box-shadow: 0 0 0 9px rgba(227, 194, 76, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(227, 194, 76, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sector-marker__dot { animation: none; }
+}
