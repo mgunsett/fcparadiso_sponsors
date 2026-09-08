@@ -56,10 +56,13 @@ export const stadiumSection = {
 
 // Espacios en la camiseta. `side` define de qué lado del componente 3D aparece el recuadro,
 // y `angle` (grados) es la rotación en Y en la que ese espacio queda de frente.
+// El modelo mira al frente en 0°. Como los nombres son desde el punto de vista del
+// jugador, un espacio sobre su izquierda queda a la derecha en pantalla y necesita
+// ángulo negativo para girar hacia la cámara; sobre su derecha, positivo.
 export const jerseySectors = [
   { id: 'J1', name: 'Pecho principal', size: '25 × 10 cm', side: 'left', angle: 0, anchor: { x: 50, y: 48 }, note: 'El espacio de mayor visibilidad. Presente en todas las fotos de equipo.' },
-  { id: 'J2', name: 'Pecho superior izquierdo', size: '10 × 5 cm', side: 'left', angle: 15, anchor: { x: 36, y: 30 }, note: 'Junto al escudo del club.' },
-  { id: 'J3', name: 'Manga derecha', size: '8 × 6 cm', side: 'right', angle: -60, anchor: { x: 78, y: 34 }, note: 'Visible en primeros planos y celebraciones.' },
+  { id: 'J2', name: 'Pecho superior izquierdo', size: '10 × 5 cm', side: 'left', angle: -15, anchor: { x: 36, y: 30 }, note: 'Junto al escudo del club.' },
+  { id: 'J3', name: 'Manga derecha', size: '8 × 6 cm', side: 'right', angle: 60, anchor: { x: 78, y: 34 }, note: 'Visible en primeros planos y celebraciones.' },
   { id: 'J4', name: 'Espalda superior', size: '25 × 8 cm', side: 'right', angle: 180, anchor: { x: 50, y: 22 }, note: 'Sobre el número. Foco de la cámara de TV en jugadas de espalda.' },
   { id: 'J5', name: 'Espalda inferior', size: '20 × 6 cm', side: 'right', angle: 180, anchor: { x: 50, y: 62 }, note: 'Bajo el número.' },
 ]
@@ -70,7 +73,7 @@ export const jerseySection = {
     'Cinco espacios en la camiseta de juego. Girala con el cursor o con el dedo para ver cada uno.',
   dragHint: 'Arrastrá para girar',
   quoteCta: 'Pedir presupuesto',
-  placeholderNote: 'Modelo 3D en preparación · vista provisoria',
+  modelNote: 'Camiseta oficial · modelo 3D',
 }
 
 export const plans = {

@@ -1,47 +1,51 @@
-import { Suspense, useEffect, useImperativeHandle, useRef, forwardRef } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { Suspense, useImperativeHandle, useEffect, useMemo, useRef, forwardRef } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
 
-const JERSEY_IMG = '/images/jersey-placeholder.webp'
+const MODEL_URL = '/models/jersey.glb'
+// Alto en unidades de escena al que se normaliza el modelo, venga con la escala
+// que venga desde el exportador.
+const TARGET_HEIGHT = 3.2
 const DEG = Math.PI / 180
 
-/**
- * PLACEHOLDER hasta tener el modelo real.
- * Cuando llegue el .glb:
- *   import { useGLTF } from '@react-three/drei'
- *   const { scene } = useGLTF('/models/jersey.glb')
- *   return <primitive object={scene} scale={...} />
- * y reemplazá <PlaceholderJersey /> por ese componente. El resto (drag, inercia,
- * callouts) no cambia porque todo cuelga del <group> rotado en Y.
- */
-function PlaceholderJersey() {
-  const tex = useLoader(THREE.TextureLoader, JERSEY_IMG)
-  useEffect(() => {
-    tex.colorSpace = THREE.SRGBColorSpace
-    tex.needsUpdate = true
-  }, [tex])
-  const aspect = tex.image.width / tex.image.height
-  const h = 3.2
-  const w = h * aspect
-  // Cilindro abierto: le da volumen a la foto plana al girar.
-  const radius = w * 0.9
-  const theta = w / radius
+// El .glb se sirve comprimido con meshopt (ver scripts/optimize-model.mjs). El
+// decoder de meshopt ya viaja dentro de three-stdlib, así que useGLTF lo resuelve
+// solo; se pasa useDraco=false para que no instancie el DRACOLoader, que iría a
+// buscar su decoder a un CDN de Google en cada visita.
+const useJersey = () => useGLTF(MODEL_URL, false)
 
-  return (
-    <group>
-      {/* Frente */}
-      <mesh position={[0, 0, -radius]}>
-        <cylinderGeometry args={[radius, radius, h, 48, 1, true, -theta / 2, theta]} />
-        <meshStandardMaterial map={tex} side={THREE.FrontSide} roughness={0.85} />
-      </mesh>
-      {/* Espalda: misma textura oscurecida (provisorio) */}
-      <mesh position={[0, 0, radius]} rotation-y={Math.PI}>
-        <cylinderGeometry args={[radius, radius, h, 48, 1, true, -theta / 2, theta]} />
-        <meshStandardMaterial map={tex} color="#9fb3a4" side={THREE.FrontSide} roughness={0.9} />
-      </mesh>
-    </group>
-  )
+function Jersey() {
+  const { scene } = useJersey()
+  const { gl } = useThree()
+
+  const model = useMemo(() => {
+    // Se clona para no escribirle escala ni posición al objeto cacheado por drei:
+    // clone() comparte geometrías y materiales, así que no duplica memoria.
+    const root = scene.clone(true)
+    const box = new THREE.Box3().setFromObject(root)
+    const size = box.getSize(new THREE.Vector3())
+    const center = box.getCenter(new THREE.Vector3())
+    const scale = TARGET_HEIGHT / size.y
+    root.scale.setScalar(scale)
+    // Centrar en el origen para que gire sobre su propio eje y no orbitando.
+    root.position.copy(center).multiplyScalar(-scale)
+
+    const maxAnisotropy = Math.min(8, gl.capabilities.getMaxAnisotropy())
+    root.traverse((o) => {
+      if (!o.isMesh) return
+      // El atlas es de 4096 y la tela se ve muy oblicua en los costados al girar:
+      // sin anisotropía las rayas se empastan ahí.
+      if (o.material.map) {
+        o.material.map.anisotropy = maxAnisotropy
+        o.material.map.needsUpdate = true
+      }
+    })
+    return root
+  }, [scene, gl])
+
+  return <primitive object={model} />
 }
 
 const Rig = forwardRef(function Rig({ onAngle }, ref) {
@@ -118,7 +122,7 @@ const Rig = forwardRef(function Rig({ onAngle }, ref) {
   return (
     <group ref={group}>
       <Suspense fallback={null}>
-        <PlaceholderJersey />
+        <Jersey />
       </Suspense>
     </group>
   )
@@ -132,12 +136,16 @@ const JerseyScene = forwardRef(function JerseyScene({ onAngle }, ref) {
       gl={{ antialias: true, alpha: true }}
       style={{ touchAction: 'pan-y', cursor: 'grab' }}
     >
-      <ambientLight intensity={1.1} />
-      <directionalLight position={[3, 4, 6]} intensity={1.4} />
-      <directionalLight position={[-4, -2, -6]} intensity={0.5} />
+      <ambientLight intensity={1} />
+      <directionalLight position={[3, 4, 6]} intensity={1.6} />
+      <directionalLight position={[-4, -2, -6]} intensity={0.55} />
       <Rig ref={ref} onAngle={onAngle} />
     </Canvas>
   )
 })
+
+// El modelo es lo primero que se mira de la sección: se empieza a bajar apenas
+// carga el chunk en vez de esperar a que el <Canvas> monte.
+useGLTF.preload(MODEL_URL, false)
 
 export default JerseyScene

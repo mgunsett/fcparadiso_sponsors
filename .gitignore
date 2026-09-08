@@ -1,3 +1,7 @@
 node_modules
 dist
 .DS_Store
+
+# Escaneo original de la camiseta (~57 MB). No se versiona: de él sale
+# public/models/jersey.glb con `pnpm run optimize:model`.
+model-src

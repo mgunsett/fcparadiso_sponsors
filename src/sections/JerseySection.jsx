@@ -130,7 +130,7 @@ export default function JerseySection() {
               color="brand.mist"
               pointerEvents="none"
             >
-              {t.placeholderNote}
+              {t.modelNote}
             </Text>
             <Text
               position="absolute"
