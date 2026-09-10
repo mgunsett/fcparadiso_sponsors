@@ -23,14 +23,14 @@ export default function Contact() {
   const ctx = useQuoteContext()
 
   return (
-    <Box as="section" id="contacto" bg="brand.chalk" py={{ base: 16, md: 24 }}>
+    <Box as="section" id="contacto" border="1px solid rgba(15,61,34,0.12)" bg="brand.chalk" py={{ base: 16, md: 24 }}>
       <Container maxW="80rem">
         <Grid
           templateColumns={{ base: '1fr', md: '2fr 3fr' }}
           bg="brand.night"
           color="brand.chalk"
           overflow="hidden"
-          borderRadius="4px"
+          borderRadius="xl"
           minH={{ md: '34rem' }}
         >
           {/* Panel fotográfico: tribuna lateral con velo verde, a la manera de la referencia */}
@@ -43,10 +43,10 @@ export default function Contact() {
           >
             <Box position="absolute" inset={0} bg="linear-gradient(160deg, rgba(30,122,60,0.55), rgba(8,33,26,0.85))" />
             <Box position="absolute" left={{ base: 5, md: 8 }} bottom={{ base: 5, md: 8 }} right={5}>
-              <Text fontFamily="heading" fontSize="sm" letterSpacing="0.06em" color="brand.gold">
+              <Text fontFamily="heading" fontSize="sm" letterSpacing="0.06em" color="brand.chalk">
                 {club.city}
               </Text>
-              <Heading as="h2" fontSize={{ base: '3.5rem', md: '5rem' }} mt={1}>
+              <Heading as="h2" fontFamily="'Russo One', sans-serif" fontWeight='normal' lineHeight={0.9} fontSize={{ base: '2.5rem', md: '3.75rem' }} color="brand.gold" mt={1}>
                 {t.title}
               </Heading>
               <Text mt={3} color="brand.mist" maxW="22rem">
@@ -85,7 +85,7 @@ export default function Contact() {
                     <Text fontFamily="heading" fontSize="sm" letterSpacing="0.06em" color="brand.mist">
                       {c.label}
                     </Text>
-                    <Text fontFamily="heading" fontSize={{ base: 'xl', md: '2xl' }} fontWeight={600}>
+                    <Text fontFamily="Russo One, sans-serif" fontSize={{ base: 'xl', md: '2xl' }} fontWeight={'normal'} color="brand.chalk">
                       {c.value}
                     </Text>
                   </Box>

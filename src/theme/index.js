@@ -27,6 +27,8 @@ const styles = {
       color: 'brand.ink',
       scrollBehavior: 'smooth',
     },
+    // El navbar es fijo: los anclajes frenan por debajo de la barra.
+    'section[id], header[id]': { scrollMarginTop: '5rem' },
     '::selection': { bg: 'brand.gold', color: 'brand.ink' },
     '@media (prefers-reduced-motion: reduce)': {
       '*': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },

@@ -4,13 +4,15 @@
 export const club = {
   name: 'FC Paradiso',
   shortName: 'FC Paradiso',
-  league: '3ª división · Suiza',
-  city: 'Paradiso, Ticino',
+  
+  city: 'FC PARADISO · Suiza',
   // TODO: reemplazar por el escudo real (SVG o PNG) en /public/images/escudo.svg
   crest: '/images/escudo.svg',
 }
 
 export const nav = [
+  // 'home' apunta al <header> del Hero, que lleva ese id.
+  { id: 'home', label: 'Home' },
   { id: 'estadio', label: 'Estadio' },
   { id: 'camiseta', label: 'Camiseta' },
   { id: 'planes', label: 'Planes' },
@@ -18,11 +20,14 @@ export const nav = [
 ]
 
 export const hero = {
-  title: 'Tu marca, en el campo de juego del FC Paradiso',
+  title: 'TU MARCA EN EL CAMPO',
   subtitle:
     'Cartelería perimetral y espacios en la camiseta oficial. Cada partido en casa, cada foto, cada transmisión.',
-  cta: 'Ver espacios disponibles',
-  ctaTarget: 'estadio',
+  // Dos accesos directos: cada uno baja a su sección.
+  ctas: [
+    { label: 'Campo', target: 'estadio' },
+    { label: 'Camiseta', target: 'camiseta' },
+  ],
 }
 
 // Sectores de cartelería.
@@ -62,15 +67,16 @@ export const stadiumSection = {
 export const jerseySectors = [
   { id: 'J1', name: 'Pecho principal', size: '25 × 10 cm', side: 'left', angle: 0, anchor: { x: 50, y: 48 }, note: 'El espacio de mayor visibilidad. Presente en todas las fotos de equipo.' },
   { id: 'J2', name: 'Pecho superior izquierdo', size: '10 × 5 cm', side: 'left', angle: -15, anchor: { x: 36, y: 30 }, note: 'Junto al escudo del club.' },
-  { id: 'J3', name: 'Manga derecha', size: '8 × 6 cm', side: 'right', angle: 60, anchor: { x: 78, y: 34 }, note: 'Visible en primeros planos y celebraciones.' },
-  { id: 'J4', name: 'Espalda superior', size: '25 × 8 cm', side: 'right', angle: 180, anchor: { x: 50, y: 22 }, note: 'Sobre el número. Foco de la cámara de TV en jugadas de espalda.' },
-  { id: 'J5', name: 'Espalda inferior', size: '20 × 6 cm', side: 'right', angle: 180, anchor: { x: 50, y: 62 }, note: 'Bajo el número.' },
+  { id: 'J3', name: 'Manga izquierda', size: '8 × 6 cm', side: 'left', angle: -60, anchor: { x: 22, y: 34 }, note: 'Visible en primeros planos y celebraciones.' },
+  { id: 'J4', name: 'Manga derecha', size: '8 × 6 cm', side: 'right', angle: 60, anchor: { x: 78, y: 34 }, note: 'Visible en primeros planos y celebraciones.' },
+  { id: 'J5', name: 'Espalda superior', size: '25 × 8 cm', side: 'right', angle: 180, anchor: { x: 50, y: 22 }, note: 'Sobre el número. Foco de la cámara de TV en jugadas de espalda.' },
+  { id: 'J6', name: 'Espalda inferior', size: '20 × 6 cm', side: 'right', angle: 180, anchor: { x: 50, y: 62 }, note: 'Bajo el número.' },
 ]
 
 export const jerseySection = {
   title: 'La camiseta oficial',
   intro:
-    'Cinco espacios en la camiseta de juego. Girala con el cursor o con el dedo para ver cada uno.',
+    'Seis espacios en la camiseta de juego. Girala con el cursor o con el dedo para ver cada uno.',
   dragHint: 'Arrastrá para girar',
   quoteCta: 'Pedir presupuesto',
   modelNote: 'Camiseta oficial · modelo 3D',
@@ -129,7 +135,7 @@ export const contact = {
     { id: 'whatsapp', label: 'WhatsApp', value: '+41 00 000 00 00', href: 'https://wa.me/41000000000?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sponsoreo%20en%20FC%20Paradiso' },
     { id: 'mail', label: 'Email', value: 'sponsor@fcparadiso.ch', href: 'mailto:sponsor@fcparadiso.ch' },
     { id: 'instagram', label: 'Instagram', value: '@fcparadiso', href: 'https://instagram.com/' },
-    { id: 'marketing', label: 'Marketing', value: 'Nombre Apellido · Responsable comercial', href: 'mailto:marketing@fcparadiso.ch' },
+    { id: 'marketing', label: 'Marketing', value: 'LED SPORTS Marketing ', href: 'mailto:marketing@fcparadiso.ch' },
   ],
 }
 

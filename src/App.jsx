@@ -9,6 +9,8 @@ import Navbar from './components/Navbar'
 export default function App() {
   return (
     <>
+      {/* Navbar fijo arriba: acompaña todo el scroll del documento */}
+      <Navbar />
       <Hero />
       <main>
         <StadiumImmersion />
@@ -17,8 +19,6 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-      {/* Sticky bottom: va al final del documento para que acompañe todo el scroll desde el primer viewport */}
-      <Navbar />
     </>
   )
 }

@@ -88,10 +88,10 @@ export default function JerseySection() {
   const activeSector = jerseySectors.find((s) => s.id === activeId)
 
   return (
-    <Box as="section" id="camiseta" bg="brand.chalk" py={{ base: 16, md: 24 }}>
+    <Box as="section" id="camiseta" bg="white" py={{ base: 16, md: 24 }}>
       <Container maxW="80rem">
         <Box maxW="36rem">
-          <Heading as="h2" fontSize={{ base: '3rem', md: '4.5rem' }} color="brand.deep">
+          <Heading as="h2" fontFamily="'Russo One', sans-serif" fontWeight='normal' lineHeight={0.9} fontSize={{ base: '2.5rem', md: '3.75rem' }} color="brand.deep">
             {t.title}
           </Heading>
           <Text mt={4} fontSize="lg" color="gray.700">
@@ -111,12 +111,7 @@ export default function JerseySection() {
             ))}
           </Flex>
 
-          <Box position="relative" h={{ base: '26rem', md: '34rem' }} borderRadius="4px" overflow="hidden" bg="brand.deep">
-            <Box
-              position="absolute"
-              inset={0}
-              bgGradient="radial(circle at 50% 40%, rgba(46,154,78,0.55), rgba(8,33,26,1) 70%)"
-            />
+          <Box position="relative" h={{ base: '26rem', md: '34rem', lg: '38rem' }}>
             <Box position="absolute" inset={0}>
               <JerseyScene ref={rig} onAngle={onAngle} />
             </Box>
@@ -127,7 +122,7 @@ export default function JerseySection() {
               fontFamily="heading"
               fontSize="xs"
               letterSpacing="0.08em"
-              color="brand.mist"
+              color="gray.500"
               pointerEvents="none"
             >
               {t.modelNote}
@@ -140,7 +135,7 @@ export default function JerseySection() {
               fontFamily="heading"
               fontSize="sm"
               letterSpacing="0.08em"
-              color="brand.gold"
+              color="brand.grass"
               pointerEvents="none"
             >
               ⟲ {t.dragHint}

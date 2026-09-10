@@ -132,7 +132,7 @@ const JerseyScene = forwardRef(function JerseyScene({ onAngle }, ref) {
   return (
     <Canvas
       dpr={[1, 1.75]}
-      camera={{ fov: 32, position: [0, 0, 9], near: 0.1, far: 50 }}
+      camera={{ fov: 32, position: [0, 0, 7.6], near: 0.1, far: 50 }}
       gl={{ antialias: true, alpha: true }}
       style={{ touchAction: 'pan-y', cursor: 'grab' }}
     >

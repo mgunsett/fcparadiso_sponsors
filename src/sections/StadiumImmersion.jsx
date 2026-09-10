@@ -76,29 +76,34 @@ export default function StadiumImmersion() {
           bgGradient="linear(to-b, rgba(8,33,26,0.55) 0%, rgba(8,33,26,0) 30%, rgba(8,33,26,0) 70%, rgba(8,33,26,0.7) 100%)"
         />
 
-        {/* Título y pista de scroll: visibles en la vista aérea */}
+        {/* Título y pista de scroll: visibles en la vista aérea.
+            Van a la derecha, sobre la franja que deja libre el paneo de la foto aérea
+            hacia la tribuna (AERIAL_TARGET.x en StadiumScene). Como esa franja se cierra
+            a medida que entra el zoom, el texto lleva sombra para seguir legible sobre el césped. */}
         <AnimatePresence>
           {!active && (
             <MotionBox
               key="intro"
               position="absolute"
-              left={{ base: 5, md: 12 }}
+              right={{ base: 5, md: 10 }}
               top={{ base: 24, md: 28 }}
-              maxW="34rem"
+              maxW={{ base: '20rem', md: '22rem' }}
+              textAlign="right"
               color="brand.chalk"
+              textShadow="0 2px 20px rgba(8,33,26,0.75)"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4 }}
             >
-              <Heading as="h2" fontSize={{ base: '3rem', md: '4.5rem' }}>
+              <Heading as="h2" fontFamily="'Russo One', sans-serif" fontWeight='normal' lineHeight={0.9} fontSize={{ base: '2.5rem', md: '3.75rem' }}>
                 {t.title}
               </Heading>
-              <Text mt={4} fontSize={{ base: 'md', md: 'lg' }} color="brand.mist" maxW="30rem">
+              <Text mt={4} fontSize={{ base: 'sm', md: 'md' }} color="brand.mist">
                 {t.intro}
               </Text>
               <Text mt={8} fontFamily="heading" fontSize="sm" letterSpacing="0.08em" color="brand.gold">
-                ↓ {t.scrollHint}
+                {t.scrollHint} ↓
               </Text>
             </MotionBox>
           )}
