@@ -1,11 +1,13 @@
 import { Box, Button, Container, Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { hero as t } from '../data/content'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 const MotionBox = motion(Box)
 
 export default function Hero() {
+  const { hero: t } = useContent()
+
   return (
     <Box as="header" id="home" position="relative" minH="100svh" bg="brand.night" color="brand.chalk" overflow="hidden">
       {/*

@@ -1,8 +1,9 @@
 import { Box, Button, Container, Grid, Heading, List, ListItem, Text } from '@chakra-ui/react'
-import { plans as t } from '../data/content'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 function PlanCard({ plan }) {
+  const { plans: t } = useContent()
   const hi = plan.highlight
   return (
     <Box
@@ -39,6 +40,8 @@ function PlanCard({ plan }) {
 }
 
 export default function Plans() {
+  const { plans: t } = useContent()
+
   return (
     <Box as="section" id="planes" bg="brand.chalk" py={{ base: 16, md: 24 }} borderTop="1px solid rgba(15,61,34,0.12)">
       <Container maxW="80rem">

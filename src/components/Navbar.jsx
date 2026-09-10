@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Box, Container, Flex, Icon, Image, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react'
 import { FaBars, FaXmark } from 'react-icons/fa6'
-import { club, nav } from '../data/content'
+import LanguageSwitch from './LanguageSwitch'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 // Navbar clásico fijo arriba: escudo a la izquierda, liga y hamburguesa a la derecha.
 // Arranca transparente sobre el Hero y toma fondo al scrollear, para seguir legible
 // sobre las secciones claras. La sección visible se marca por IntersectionObserver.
 export default function Navbar() {
+  const { club, nav, ui } = useContent()
   const [current, setCurrent] = useState(null)
   const [scrolled, setScrolled] = useState(false)
 
+  // Los ids de sección son los mismos en todos los idiomas, así que el observer
+  // se arma una sola vez al montar.
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => {
@@ -36,7 +40,7 @@ export default function Navbar() {
   return (
     <Box
       as="nav"
-      aria-label="Secciones"
+      aria-label={ui.navAria}
       position="fixed"
       top={0}
       left={0}
@@ -55,7 +59,7 @@ export default function Navbar() {
             as="button"
             type="button"
             onClick={() => scrollToId('home')}
-            aria-label={`${club.name} · volver al inicio`}
+            aria-label={`${club.name} · ${ui.homeAria}`}
             display="grid"
             placeItems="center"
             borderRadius="md"
@@ -71,17 +75,15 @@ export default function Navbar() {
             />
           </Box>
 
-          <Flex align="center" gap={{ base: 3, md: 5 }}>
-            <Text color="brand.mist" textShadow="0 1px 12px rgba(8,33,26,0.6)">
-              {club.league}
-            </Text>
+          <Flex align="center" gap={{ base: 2, md: 3 }}>
+            <LanguageSwitch />
 
             <Menu placement="bottom-end" autoSelect={false} isLazy>
               {({ isOpen }) => (
                 <>
                   <MenuButton
                     type="button"
-                    aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+                    aria-label={isOpen ? ui.closeMenu : ui.openMenu}
                     display="grid"
                     placeItems="center"
                     boxSize={11}

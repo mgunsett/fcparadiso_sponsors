@@ -1,25 +1,29 @@
 import { Box, Container, Flex, Grid, Heading, Link, Text } from '@chakra-ui/react'
 import { FaWhatsapp, FaInstagram, FaEnvelope, FaUserTie } from 'react-icons/fa6'
-import { contact as t, club } from '../data/content'
+import { useContent } from '../i18n'
 import { useQuoteContext } from '../hooks/useScrollTo'
 
 const icons = { whatsapp: FaWhatsapp, mail: FaEnvelope, instagram: FaInstagram, marketing: FaUserTie }
 
-function withContext(href, ctx) {
+// Prellena WhatsApp / mail con el espacio o el plan desde el que vino el usuario,
+// en el idioma activo.
+function withContext(href, ctx, quote, club) {
   if (!ctx) return href
-  const subject = ctx.sector ? `Presupuesto espacio ${ctx.sector}` : `Consulta plan ${ctx.plan}`
+  const subject = ctx.sector ? quote.sectorSubject(ctx.sector) : quote.planSubject(ctx.plan)
   if (href.startsWith('https://wa.me/')) {
-    const base = href.split('?')[0]
-    return `${base}?text=${encodeURIComponent(`Hola, quiero pedir ${subject.toLowerCase()} en ${club.name}.`)}`
+    const message = ctx.sector
+      ? quote.sectorMessage(ctx.sector, club.name)
+      : quote.planMessage(ctx.plan, club.name)
+    return `${href.split('?')[0]}?text=${encodeURIComponent(message)}`
   }
   if (href.startsWith('mailto:')) {
-    const base = href.split('?')[0]
-    return `${base}?subject=${encodeURIComponent(`${subject} · ${club.name}`)}`
+    return `${href.split('?')[0]}?subject=${encodeURIComponent(`${subject} · ${club.name}`)}`
   }
   return href
 }
 
 export default function Contact() {
+  const { contact: t, club, quote } = useContent()
   const ctx = useQuoteContext()
 
   return (
@@ -59,7 +63,7 @@ export default function Contact() {
           <Flex direction="column" justify="center" p={{ base: 5, md: 10, lg: 14 }} gap={2}>
             {ctx && (
               <Text mb={4} fontFamily="heading" fontSize="sm" letterSpacing="0.06em" color="brand.gold">
-                {ctx.sector ? `Consulta sobre el espacio ${ctx.sector}` : `Consulta sobre el plan ${ctx.plan}`}
+                {ctx.sector ? quote.sectorNote(ctx.sector) : quote.planNote(ctx.plan)}
               </Text>
             )}
             {t.channels.map((c) => {
@@ -67,7 +71,7 @@ export default function Contact() {
               return (
                 <Link
                   key={c.id}
-                  href={withContext(c.href, ctx)}
+                  href={withContext(c.href, ctx, quote, club)}
                   isExternal={!c.href.startsWith('mailto:')}
                   display="grid"
                   gridTemplateColumns="2.75rem 1fr auto"

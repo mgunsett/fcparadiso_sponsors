@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import { Box, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import JerseyScene from '../scenes/JerseyScene'
-import { jerseySectors, jerseySection as t } from '../data/content'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 const MotionBox = motion(Box)
@@ -73,6 +73,7 @@ function Callout({ sector, side, active, onClick, index }) {
 }
 
 export default function JerseySection() {
+  const { jerseySectors, jerseySection: t } = useContent()
   const rig = useRef(null)
   const [angle, setAngle] = useState(0)
   const onAngle = useCallback((deg) => setAngle((prev) => (Math.abs(prev - deg) < 2 ? prev : deg)), [])
@@ -171,10 +172,10 @@ export default function JerseySection() {
           <Text color="gray.700">
             {activeSector ? (
               <>
-                Estás viendo <strong>{activeSector.name}</strong> · {activeSector.size}
+                {t.viewingLabel} <strong>{activeSector.name}</strong> · {activeSector.size}
               </>
             ) : (
-              'Girá la camiseta hasta el espacio que te interese.'
+              t.idleHint
             )}
           </Text>
           <Button

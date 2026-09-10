@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import StadiumScene from '../scenes/StadiumScene'
-import { boardSectors, stadiumSection as t } from '../data/content'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -12,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger)
 const MotionBox = motion(Box)
 
 export default function StadiumImmersion() {
+  const { boardSectors, stadiumSection: t } = useContent()
   const sectionRef = useRef(null)
   const progress = useRef(0)
   const [active, setActive] = useState(false)
@@ -60,7 +61,10 @@ export default function StadiumImmersion() {
   return (
     <Box as="section" id="estadio" ref={sectionRef} position="relative" h="320vh" bg="brand.night">
       <Box position="sticky" top={0} h="100vh" overflow="hidden">
+        {/* Los sectores viajan por props: el <Canvas> de r3f es otro renderer y no
+            recibe el contexto de idioma del árbol de arriba. */}
         <StadiumScene
+          sectors={boardSectors}
           progress={progress}
           selectedId={selectedId}
           onSelect={onSelect}
@@ -141,11 +145,11 @@ export default function StadiumImmersion() {
                   </Heading>
                   <Flex mt={3} gap={6} fontSize="sm" color="brand.mist">
                     <Box>
-                      <Text>Medida</Text>
+                      <Text>{t.sizeLabel}</Text>
                       <Text color="brand.chalk" fontWeight={600}>{selected.size}</Text>
                     </Box>
                     <Box>
-                      <Text>Ubicación</Text>
+                      <Text>{t.viewLabel}</Text>
                       <Text color="brand.chalk" fontWeight={600}>{selected.view}</Text>
                     </Box>
                   </Flex>

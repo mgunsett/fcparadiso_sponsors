@@ -3,7 +3,6 @@ import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Html, Line } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
-import { boardSectors } from '../data/content'
 
 const AERIAL = '/images/stadium-aerial.webp'
 const GROUND = '/images/stand-front.webp'
@@ -133,7 +132,7 @@ function Sector({ sector, W, H, selected, active, onSelect, logoUrl }) {
   )
 }
 
-function GroundLayer({ progress, selectedId, onSelect, logoUrl, active }) {
+function GroundLayer({ sectors, progress, selectedId, onSelect, logoUrl, active }) {
   const tex = useSrgbTexture(GROUND)
   const aspect = tex.image.width / tex.image.height
   const [W, H] = useCoverSize(aspect)
@@ -143,7 +142,7 @@ function GroundLayer({ progress, selectedId, onSelect, logoUrl, active }) {
   const focus = useRef({ scale: 1, ox: 0, oy: 0 })
 
   useEffect(() => {
-    const sector = boardSectors.find((s) => s.id === selectedId)
+    const sector = sectors.find((s) => s.id === selectedId)
     const target = sector
       ? {
           scale: SECTOR_ZOOM,
@@ -175,7 +174,7 @@ function GroundLayer({ progress, selectedId, onSelect, logoUrl, active }) {
         <planeGeometry args={[W, H]} />
         <meshBasicMaterial ref={mat} map={tex} transparent depthWrite={false} toneMapped={false} />
       </mesh>
-      {boardSectors.map((sector) => (
+      {sectors.map((sector) => (
         <Sector
           key={sector.id}
           sector={sector}
@@ -192,10 +191,11 @@ function GroundLayer({ progress, selectedId, onSelect, logoUrl, active }) {
 }
 
 /**
+ * sectors: paneles ya traducidos (el Canvas no ve el contexto de idioma).
  * progress: ref 0..1 controlado por ScrollTrigger.
  * active: true cuando la sección ya está a nivel de campo (muestra hotspots).
  */
-export default function StadiumScene({ progress, selectedId, onSelect, logoUrl, active }) {
+export default function StadiumScene({ sectors, progress, selectedId, onSelect, logoUrl, active }) {
   return (
     <Canvas
       flat
@@ -207,6 +207,7 @@ export default function StadiumScene({ progress, selectedId, onSelect, logoUrl, 
       <Suspense fallback={null}>
         <AerialLayer progress={progress} />
         <GroundLayer
+          sectors={sectors}
           progress={progress}
           selectedId={selectedId}
           onSelect={onSelect}

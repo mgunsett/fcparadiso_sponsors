@@ -1,17 +1,19 @@
 import { Box, Container, Flex, Image, Link, Text } from '@chakra-ui/react'
 import { FaInstagram, FaFacebook, FaYoutube } from 'react-icons/fa6'
-import { club, footer as t, nav } from '../data/content'
+import { useContent } from '../i18n'
 import { scrollToId } from '../hooks/useScrollTo'
 
 const icons = { instagram: FaInstagram, facebook: FaFacebook, youtube: FaYoutube }
 
 export default function Footer() {
+  const { club, footer: t, nav, ui } = useContent()
+
   return (
     <Box as="footer" bg="brand.night" color="brand.chalk" pt={{ base: 12, md: 16 }} pb={{ base: 28, md: 24 }}>
       <Container maxW="80rem">
         <Flex justify="space-between" align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} gap={8}>
           <Flex align="center" gap={4}>
-            <Image src={club.crest} alt={`Escudo ${club.name}`} boxSize="56px" fallback={<Box boxSize="56px" borderRadius="50%" border="1px dashed" borderColor="brand.mist" />} />
+            <Image src={club.crest} alt={`${ui.crestAlt} ${club.name}`} boxSize="56px" fallback={<Box boxSize="56px" borderRadius="50%" border="1px dashed" borderColor="brand.mist" />} />
             <Box>
               <Text fontFamily="heading" fontSize="2xl" fontWeight={600} lineHeight={1}>
                 {club.name}
